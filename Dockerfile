@@ -17,7 +17,8 @@ COPY gunicorn-logging.conf /.
 # our package and module that contains Flask app
 COPY myflaskpackage myflaskpackage/
 
-#EXPOSE 8000
+# default docker port to expose, '-p' flag is used to same effect
+EXPOSE 8000
 
 ENTRYPOINT [ "/usr/local/bin/gunicorn", "--config", "gunicorn.conf.py", "--log-config", "gunicorn-logging.conf", "myflaskpackage.flask_module:app" ]
 

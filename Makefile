@@ -2,6 +2,7 @@ OWNER := fabianlee
 PROJECT := docker-gunicorn-hello-world-web
 VERSION := 1.0.0
 OPV := $(OWNER)/$(PROJECT):$(VERSION)
+
 EXPOSED_PORT := 8000
 CONTAINER_PORT := 8000
 WEBPORT := $(EXPOSED_PORT):$(CONTAINER_PORT)
@@ -57,7 +58,7 @@ docker-push:
 
 ## pushes to kubernetes cluster
 k8s-apply:
-	sed -e 's/1.0.0/$(VERSION)/' flask-hello-world-web.yaml | kubectl apply -f -
+	sed -e 's/1.0.0/$(VERSION)/' gunicorn-hello-world-web.yaml | kubectl apply -f -
 
 k8s-delete:
-	kubectl delete -f flask-hello-world-web.yaml 
+	kubectl delete -f gunicorn-hello-world-web.yaml 
