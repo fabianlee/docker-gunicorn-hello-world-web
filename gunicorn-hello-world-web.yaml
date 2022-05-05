@@ -1,0 +1,95 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gunicorn-hello-world-web
+  # allow for override: kubectl -n <ns> apply ...
+  #namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: gunicorn-hello-world-web
+  # kubectl scale --replicas=x deployment/gunicorn-hello-world-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gunicorn-hello-world-web
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+
+      # scaled up deployment will go to different nodes
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - gunicorn-hello-world-web
+            topologyKey: "kubernetes.io/hostname"
+
+      containers:
+      - name: gunicorn-hello-world-web
+        image: fabianlee/docker-gunicorn-hello-world-web:1.0.0
+
+        # resource limits
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "500m" # half vcpu
+          limits:
+            memory: "128Mi"
+            cpu: "1000m" # one vcpu
+
+        env:
+
+        # 404 if request not to this context
+        - name: APP_CONTEXT
+          value: "/gunicorn/"
+
+        # default message
+        - name: MESSAGE_TO
+          value: "gunicorn"
+
+        # listening port
+        - name: PORT
+          value: "8000"
+
+        # check for lifetime liveness, restarts if dead
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 3
+
+        # check for initial readiness
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 3
+
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gunicorn-hello-world-web-service
+  #namespace: default
+  labels:
+    app: gunicorn-hello-world-web
+spec:
+  ports:
+  # port=available to other containers
+  - port: 8000
+    name: http
+    # targetPort=exposed from inside container
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app: gunicorn-hello-world-web

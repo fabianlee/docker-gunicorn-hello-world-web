@@ -1,0 +1,6 @@
+#!/bin/bash
+# 
+# Capture output from 'pip freeze' to construct exact set of dependencies
+#
+
+pip freeze > requirements.txt
