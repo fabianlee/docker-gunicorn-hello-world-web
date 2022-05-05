@@ -1,6 +1,6 @@
 OWNER := fabianlee
 PROJECT := docker-gunicorn-hello-world-web
-VERSION := 1.0.0
+VERSION := 2.0.0
 OPV := $(OWNER)/$(PROJECT):$(VERSION)
 
 SHELL := /bin/bash
