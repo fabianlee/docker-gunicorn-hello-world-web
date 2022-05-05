@@ -61,6 +61,7 @@ docker-logs:
 ## stops container running in background
 docker-stop:
 	$(DOCKERCMD) stop $(PROJECT)
+	$(DOCKERCMD) rm $(PROJECT)
 
 ## pushes to $(DOCKERCMD)hub
 docker-push:
