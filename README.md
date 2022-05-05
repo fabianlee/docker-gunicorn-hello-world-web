@@ -23,3 +23,16 @@ Image is based on python:3.10-slim-bullseye and is ~140Mb
 * docker-run-bg (runs container in background)
 * k8s-apply (applies deployment to kubernetes cluster)
 * k8s-delete (removes deployment on kubernetes cluster)
+
+# Docker images
+
+fabianlee/docker-gunicorn-hello-world-web:1.0.0
+
+git tag -a 1.0.0 -m "version 1.0.0 of build does not have New Relic agent"
+git push --tags
+
+
+fabianlee/docker-gunicorn-hello-world-web:2.0.0
+
+git tag -a 2.0.0 -m "version 2.0.0 of build has New Relic agent instrumentation"
+git push --tags
