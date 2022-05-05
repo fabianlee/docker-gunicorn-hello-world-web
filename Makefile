@@ -44,7 +44,7 @@ docker-test-cli:
 
 ## run container in background
 docker-run-bg:
-	$(DOCKERCMD) run -d -p $(WEBPORT) -e GUNICORN_WORKERS=3 -e NEW_RELIC_LICENSE_KEY=$(NEW_RELIC_LICENSE_KEY)--rm --name $(PROJECT) $(OPV)
+	$(DOCKERCMD) run -d -p $(WEBPORT) -e GUNICORN_WORKERS=3 -e NEW_RELIC_LICENSE_KEY=$(NEW_RELIC_LICENSE_KEY) --rm --name $(PROJECT) $(OPV)
 
 ## get into console of container running in background
 docker-cli-bg:
