@@ -69,7 +69,7 @@ docker-push:
 
 ## pushes to kubernetes cluster
 k8s-apply:
-	VERSION=$(VERSION) NEW_RELIC_LICENSE_KEY=$(NEW_RELIC_LICENSE_KEY) envsubst < gunicorn-hello-world-web.yaml | kubectl apply -f -
+	VERSION=$(VERSION) NEW_RELIC_APP_NAME=k8s-gunicorn-hello-world-web NEW_RELIC_LICENSE_KEY=$(NEW_RELIC_LICENSE_KEY) envsubst < gunicorn-hello-world-web.yaml | kubectl apply -f -
 
 k8s-delete:
 	kubectl delete -f gunicorn-hello-world-web.yaml 

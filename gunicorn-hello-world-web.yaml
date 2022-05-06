@@ -50,6 +50,10 @@ spec:
         - name: MESSAGE_TO
           value: "gunicorn_kubernetes"
 
+        # New Relic name under APM tab
+        - name: NEW_RELIC_APP_NAME
+          value: ${NEW_RELIC_APP_NAME}
+
         # New Relic license key
         - name: NEW_RELIC_LICENSE_KEY
           value: ${NEW_RELIC_LICENSE_KEY}
